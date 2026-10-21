@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Mirath</string>
+    <string name="nav_home">الرئيسية</string>
+    <string name="nav_catalog">كتالوج الألعاب</string>
+    <string name="nav_simulator">المحاكي</string>
+    <string name="nav_map">الخريطة</string>
+    <string name="nav_articles">التراث والمقالات</string>
+    <string name="nav_stats">الإحصائيات</string>
+    <string name="nav_about">عن مِرث</string>
+</resources>

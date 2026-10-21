@@ -1,0 +1,19 @@
+{
+  "entities": {
+    "LeaderboardScore": {
+      "collection": "leaderboard_scores",
+      "properties": {
+        "id": { "type": "string", "description": "Document ID" },
+        "gameId": { "type": "string", "description": "Game ID e.g. ur, senet" },
+        "userId": { "type": "string", "description": "User UID" },
+        "userName": { "type": "string", "description": "User Display Name" },
+        "score": { "type": "number", "description": "Score achieved" },
+        "timestamp": { "type": "timestamp", "description": "Server timestamp" }
+      },
+      "rules": {
+        "read": "true",
+        "write": "request.auth != null && request.auth.uid == request.resource.data.userId"
+      }
+    }
+  }
+}
