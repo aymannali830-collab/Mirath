@@ -23,7 +23,7 @@ import com.example.mirath.ui.theme.MirathTheme
 
 sealed class Screen(val route: String, val title: String, val icon: ImageVector) {
     object Home : Screen("home", "الرئيسية", Icons.Default.Home)
-    object Catalog : Screen("catalog", "الكتالوج", Icons.Default.List)
+    object Catalog : Screen("catalog", "الألعاب", Icons.Default.List)
     object Leaderboard : Screen("leaderboard", "المتصدرين", Icons.Default.Star)
     object Achievements : Screen("achievements", "الإنجازات", Icons.Default.CheckCircle)
     object Map : Screen("map", "الخريطة", Icons.Default.Place)
@@ -40,11 +40,16 @@ class MainActivity : ComponentActivity() {
         setContent {
             MirathTheme {
                 val navController = rememberNavController()
-                val items = listOf(
+                var menuExpanded by remember { mutableStateOf(false) }
+
+                val primaryItems = listOf(
                     Screen.Home,
                     Screen.Catalog,
                     Screen.Leaderboard,
-                    Screen.Achievements,
+                    Screen.Achievements
+                )
+
+                val secondaryItems = listOf(
                     Screen.Map,
                     Screen.Articles,
                     Screen.Stats,
@@ -58,13 +63,26 @@ class MainActivity : ComponentActivity() {
                             title = { Text("مِرث | Mirath", fontWeight = FontWeight.Bold) },
                             actions = {
                                 IconButton(
-                                    onClick = {
-                                        val randomGame = GameRepository.games.random()
-                                        navController.navigate("simulator/${randomGame.id}")
-                                    },
-                                    modifier = Modifier.testTag("surprise_me_button")
+                                    onClick = { menuExpanded = true },
+                                    modifier = Modifier.testTag("menu_more_button")
                                 ) {
-                                    Icon(Icons.Default.Refresh, contentDescription = "فاجئني")
+                                    Icon(Icons.Default.MoreVert, contentDescription = "المزيد")
+                                }
+
+                                DropdownMenu(
+                                    expanded = menuExpanded,
+                                    onDismissRequest = { menuExpanded = false }
+                                ) {
+                                    secondaryItems.forEach { screen ->
+                                        DropdownMenuItem(
+                                            text = { Text(screen.title) },
+                                            onClick = {
+                                                menuExpanded = false
+                                                navController.navigate(screen.route)
+                                            },
+                                            leadingIcon = { Icon(screen.icon, contentDescription = null) }
+                                        )
+                                    }
                                 }
                             },
                             colors = TopAppBarDefaults.topAppBarColors(
@@ -79,7 +97,7 @@ class MainActivity : ComponentActivity() {
                             val navBackStackEntry by navController.currentBackStackEntryAsState()
                             val currentRoute = navBackStackEntry?.destination?.route
 
-                            items.forEach { screen ->
+                            primaryItems.forEach { screen ->
                                 NavigationBarItem(
                                     icon = { Icon(screen.icon, contentDescription = screen.title) },
                                     label = { Text(screen.title) },
