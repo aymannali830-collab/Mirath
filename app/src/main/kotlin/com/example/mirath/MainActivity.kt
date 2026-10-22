@@ -25,6 +25,7 @@ sealed class Screen(val route: String, val title: String, val icon: ImageVector)
     object Home : Screen("home", "الرئيسية", Icons.Default.Home)
     object Catalog : Screen("catalog", "الكتالوج", Icons.Default.List)
     object Leaderboard : Screen("leaderboard", "المتصدرين", Icons.Default.Star)
+    object Achievements : Screen("achievements", "الإنجازات", Icons.Default.CheckCircle)
     object Map : Screen("map", "الخريطة", Icons.Default.Place)
     object Articles : Screen("articles", "المقالات", Icons.Default.List)
     object Stats : Screen("stats", "الإحصائيات", Icons.Default.Star)
@@ -43,6 +44,7 @@ class MainActivity : ComponentActivity() {
                     Screen.Home,
                     Screen.Catalog,
                     Screen.Leaderboard,
+                    Screen.Achievements,
                     Screen.Map,
                     Screen.Articles,
                     Screen.Stats,
@@ -118,6 +120,9 @@ class MainActivity : ComponentActivity() {
                         }
                         composable(Screen.Leaderboard.route) {
                             LeaderboardScreen()
+                        }
+                        composable(Screen.Achievements.route) {
+                            AchievementsScreen()
                         }
                         composable(
                             route = "simulator/{gameId}",
